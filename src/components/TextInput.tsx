@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Textarea, Button, useToast } from "@chakra-ui/react";
 
-const TextInput = () => {
+interface Props {
+  extractKeywords: (text: string) => void;
+}
+
+const TextInput = ({ extractKeywords }: Props) => {
   const [text, setText] = useState("");
 
   const toast = useToast();
@@ -15,9 +19,11 @@ const TextInput = () => {
         duration: 4000,
         isClosable: false,
       });
-    } else {
-      console.log(text);
+
+      return;
     }
+
+    extractKeywords(text);
   };
 
   return (
@@ -26,7 +32,9 @@ const TextInput = () => {
         bg="green.200"
         padding={4}
         marginTop={6}
-        height={200}
+        height={240}
+        _hover={{ borderColor: "green.300" }}
+        _focus={{ borderColor: "green.400", outlineColor: "green.400" }}
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
@@ -37,6 +45,7 @@ const TextInput = () => {
         marginTop={4}
         width="100%"
         _hover={{ bg: "green.600" }}
+        _focus={{ boxShadow: "0 0 0 3px #9AE6B4" }}
         onClick={submitText}
       >
         Extract
